@@ -1,0 +1,576 @@
+{
+  "info": {
+    "_postman_id": "660e481c-0742-4371-a933-22564a55ad19",
+    "name": "Petstore QA",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59150900",
+    "_collection_link": "https://go.postman.co/collection/59150900-660e481c-0742-4371-a933-22564a55ad19?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "HU-01 Registrar mascota",
+      "item": [
+        {
+          "name": "CP-01 Registrar mascota valida",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-01: registrar una mascota valida responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-01: devuelve el nombre y el estado enviados\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.name).to.eql(\"Luna\");\r\n    pm.expect(body.status).to.eql(\"available\");\r\n});\r\n\r\nconst body = pm.response.json();\r\npm.environment.set(\"petId\", body.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 482913577,\r\n  \"name\": \"Luna\",\r\n  \"status\": \"available\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-15 Registrar mascota en estado sold",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-15: registrar una mascota en estado sold responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-15: devuelve el nombre y el estado enviados\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.name).to.eql(\"Kira\");\r\n    pm.expect(body.status).to.eql(\"sold\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 482913582,\r\n  \"name\": \"Kira\",\r\n  \"status\": \"sold\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-16 Registrar mascota en estado pending",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-16: registrar una mascota en estado pending responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-16: devuelve el nombre y el estado enviados\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.name).to.eql(\"Max\");\r\n    pm.expect(body.status).to.eql(\"pending\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 482913583,\r\n  \"name\": \"Max\",\r\n  \"status\": \"pending\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-02 Estado inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-02: un estado inexistente se rechaza (4xx)\", function () {\r\n    pm.expect(pm.response.code).to.be.within(400, 499);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 482913578,\r\n  \"name\": \"Luna\",\r\n  \"status\": \"perdido\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-03 Estado vacio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-03: un estado vacio se rechaza (4xx)\", function () {\r\n    pm.expect(pm.response.code).to.be.within(400, 499);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 482913579,\r\n  \"name\": \"Luna\",\r\n  \"status\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-04 Sin campo nombre",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-04: registrar sin nombre se rechaza (4xx)\", function () {\r\n    pm.expect(pm.response.code).to.be.within(400, 499);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 482913580,\r\n  \"status\": \"available\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-05 Nombre vacio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-05: registrar con nombre vacio se rechaza (4xx)\", function () {\r\n    pm.expect(pm.response.code).to.be.within(400, 499);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 482913581,\r\n  \"name\": \"\",\r\n  \"status\": \"available\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "HU-02 Consultar mascota por id",
+      "item": [
+        {
+          "name": "   CP-08 Id con letras",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-08: un id con letras que responde 400\", function() {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"CP-08: el mensaje no expone detalles internos\", function() {\r\n    const body = pm.response.json();\r\n    pm.expect(body.message).to.not.include(\"java.lang\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/abc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "abc"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-07 Id valido que no existe",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-07: un id que no existe responde 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"CP-07: el mensaje indica que la mascota no existe\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.message).to.eql(\"Pet not found\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/9999999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "9999999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-09 Id con caracteres especiales",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-09: un id con caracteres especiales responde 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"CP-09: el mensaje no expone detalles internos\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.message).to.not.include(\"java.lang\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/%40%23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "%40%23"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-06 Consultar id existente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-06: un id existente responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-06: devuelve los mismos datos registrados en CP-01\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.name).to.eql(\"Luna\");\r\n    pm.expect(body.status).to.eql(\"available\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/{{petId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "{{petId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "HU-03 Buscar mascotas por estado",
+      "item": [
+        {
+          "name": "CP-10 Buscar estado sold",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-10: buscar estado sold responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-10: todas las mascotas tienen estado sold\", function () {\r\n    const mascotas = pm.response.json();\r\n    mascotas.forEach(function (mascota) {\r\n        pm.expect(mascota.status).to.eql(\"sold\");\r\n    });\r\n}); "
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/findByStatus?status=sold",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "findByStatus"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "sold"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-11 Buscar estado available",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-11: buscar estado available responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-11: todas las mascotas tienen estado available\", function () {\r\n    const mascotas = pm.response.json();\r\n    mascotas.forEach(function (mascota) {\r\n        pm.expect(mascota.status).to.eql(\"available\");\r\n    });\r\n}); "
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/findByStatus?status=available",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "findByStatus"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "available"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-12 Buscar estado pending",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-12: buscar estado pending responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-12: todas las mascotas tienen estado pending\", function () {\r\n    const mascotas = pm.response.json();\r\n    mascotas.forEach(function (mascota) {\r\n        pm.expect(mascota.status).to.eql(\"pending\");\r\n    });\r\n}); "
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/findByStatus?status=pending",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "findByStatus"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-13 Estado inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-13: un estado inexistente se rechaza con 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/findByStatus?status=perdido",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "findByStatus"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "perdido"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-14 Estado vacio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-14: un estado vacio se rechaza con 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/findByStatus?status=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "findByStatus"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
