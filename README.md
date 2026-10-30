@@ -1,7 +1,3 @@
-# qa-portfolio-petstore
-
-Portafolio de práctica QA: historias de usuario, pruebas de API y automatización con Python sobre Swagger Petstore
-
 # QA Portfolio: Petstore API
 
 Portafolio de práctica de QA y Scrum sobre la API pública [Swagger Petstore](https://petstore.swagger.io). Cubre el ciclo completo: historias de usuario, diseño de casos de prueba, ejecución de pruebas de API, reporte de defectos y automatización.
