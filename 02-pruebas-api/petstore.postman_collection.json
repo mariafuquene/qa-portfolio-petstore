@@ -571,6 +571,188 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "HU-04 Actualizar mascota",
+      "item": [
+        {
+          "name": "CP-17 Actualizar el nombre",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-17: responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-17: el nombre se actualizó\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.name).to.eql(\"Luna Actualizada\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 482913590,\r\n  \"name\": \"Luna Actualizada\",\r\n  \"status\": \"available\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-20 Actualizar con id con letras",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-20: rechaza el id con letras (400 o 405)\", function () {\r\n    pm.expect(pm.response.code).to.be.oneOf([400, 405]);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": \"abc\",\r\n  \"name\": \"Luna Actualizada\",\r\n  \"status\": \"available\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-21 Actualizar sin cuerpo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-21: rechaza el cuerpo vacío (400 o 405)\", function () {\r\n    pm.expect(pm.response.code).to.be.oneOf([400, 405]);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-18 Cambiar el estado a vendida",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-18: responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-18: el estado cambió a sold\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.status).to.eql(\"sold\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 482913590,\r\n  \"name\": \"Luna Actualizada\",\r\n  \"status\": \"sold\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CP-19 Verificar que el cambio quedó guardado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CP-19: responde 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"CP-19: el nombre y el estado quedaron guardados\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.name).to.eql(\"Luna Actualizada\");\r\n    pm.expect(body.status).to.eql(\"sold\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pet/482913590",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pet",
+                "482913590"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ]
 }

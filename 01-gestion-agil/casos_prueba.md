@@ -34,9 +34,20 @@
 | CP-13 | CA-03.2  | Estado inexistente      | GET /pet/findByStatus | status=perdido   | Código 400; solicitud rechazada                               | Negativo |
 | CP-14 | CA-03.2  | Estado vacío            | GET /pet/findByStatus | status= (vacío)  | Código 400; solicitud rechazada                               | Negativo |
 
+## HU-04: Actualizar datos de una mascota
+
+| ID    | Criterio | Título                                 | Solicitud        | Datos de entrada                      | Resultado esperado                                          | Tipo     |
+| ----- | -------- | -------------------------------------- | ---------------- | ------------------------------------- | ----------------------------------------------------------- | -------- |
+| CP-17 | CA-04.1  | Actualizar el nombre                   | PUT /pet         | id 482913590, name "Luna Actualizada" | Código 200; devuelve el nombre nuevo                        | Positivo |
+| CP-18 | CA-04.1  | Cambiar el estado a vendida            | PUT /pet         | id 482913590, status "sold"           | Código 200; devuelve status "sold"                          | Positivo |
+| CP-19 | CA-04.2  | Verificar que el cambio quedó guardado | GET /pet/{petId} | 482913590 (después de CP-17 y CP-18)  | Código 200; muestra name "Luna Actualizada" y status "sold" | Positivo |
+| CP-20 | CA-04.3  | Actualizar con id con letras           | PUT /pet         | id "abc"                              | Código 400 o 405; no se modifica nada                       | Negativo |
+| CP-21 | CA-04.3  | Actualizar sin cuerpo                  | PUT /pet         | cuerpo vacío                          | Código 400 o 405; no se modifica nada                       | Negativo |
+
 ## Observaciones para el Product Owner
 
 - Los criterios CA-01.2 y CA-01.3 dicen "rechaza la solicitud" sin indicar el código exacto. Por eso el resultado esperado es "código 4xx". Se recomienda definir el código esperado con el PO.
 - No está definido qué pasa si el estado se envía en mayúsculas (por ejemplo, "SOLD"). Se recomienda aclararlo antes de probar.
 - CA-01.1 solo menciona “available” y hay que confirmar si los otros estados son válidos al registrar.
 - No está definido qué debe pasar si en la búsqueda se envían varios estados a la vez, combinando uno válido y uno inválido (por ejemplo, `status=sold&status=perdido`). Se recomienda aclararlo con el PO.
+- CA-04.3 espera código 400 o 405 ante datos inválidos, pero al enviar un PUT sin cuerpo la API responde 415 (Unsupported Media Type). El rechazo es correcto y 415 es un código adecuado para este caso. Se recomienda que el PO confirme si se acepta 415 y actualice el criterio.

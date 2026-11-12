@@ -88,3 +88,35 @@
 **Resultado obtenido:** código 200 OK en ambos casos. Con `perdido` devuelve una lista vacía `[]`; con el estado vacío devuelve mascotas guardadas con estado vacío.
 
 **Impacto:** quien consume la API no puede distinguir "no hay mascotas en ese estado" de "ese estado no existe". El caso CP-14 además confirma el efecto de BUG-03: las mascotas guardadas con estado vacío existen en la base de datos.
+
+## BUG-06: PUT /pet responde 500 cuando el id tiene letras
+
+- **Historia:** HU-04 (PQA-20) · **Criterio:** CA-04.3 · **Caso:** CP-20 · **Jira:** PQA-21
+- **Ambiente:** https://petstore.swagger.io/v2 · **Herramienta:** Postman · **Fecha:** 2026-11-11
+- **Severidad:** Media · **Prioridad:** Media
+
+**Pasos para reproducir:**
+
+1. Enviar una solicitud PUT a `https://petstore.swagger.io/v2/pet` con el Body `{"id": "abc", "name": "Luna Actualizada", "status": "available"}`.
+
+**Resultado esperado:** código 400 o 405; la solicitud se rechaza y no se modifica nada, según CA-04.3.
+
+**Resultado obtenido:** código 500 Internal Server Error con el mensaje `"something bad happened"`.
+
+**Impacto:** la API no valida el tipo de dato del id antes de procesarlo y falla internamente. Un error 500 indica que el servidor no sabe manejar el dato, y el mensaje no le explica al usuario qué debe corregir.
+
+## BUG-07: PUT /pet sin cuerpo expone detalles internos del servidor en el mensaje de error
+
+- **Historia:** HU-04 (PQA-20) · **Criterio:** CA-04.3 · **Caso:** CP-21 · **Jira:** PQA-22
+- **Ambiente:** https://petstore.swagger.io/v2 · **Herramienta:** Postman · **Fecha:** 2026-11-11
+- **Severidad:** Baja · **Prioridad:** Baja
+
+**Pasos para reproducir:**
+
+1. Enviar una solicitud PUT a `https://petstore.swagger.io/v2/pet` sin Body.
+
+**Resultado esperado:** código 400 o 405 con un mensaje claro, por ejemplo "el cuerpo de la solicitud es obligatorio y debe estar en formato JSON", según CA-04.3.
+
+**Resultado obtenido:** código 415 Unsupported Media Type. El mensaje muestra nombres internos de clases y librerías del servidor (`com.sun.jersey...`, `io.swagger.sample.model.Pet`).
+
+**Impacto:** la solicitud sí se rechaza, pero el mensaje revela con qué tecnología está construido el servidor, información que podría aprovechar un atacante. Además, el mensaje no es comprensible para quien consume la API.
