@@ -34,6 +34,25 @@ pytest -v
 
 Resultado esperado: `11 passed, 1 xfailed`. La prueba marcada como `xfail` corresponde a un defecto conocido (BUG-01) que permanece abierto.
 
+## Sincronización automática de la documentación
+
+[`scripts/sincronizar_qa.py`](scripts/sincronizar_qa.py) ejecuta pytest y la colección de Postman (con Newman), consolida un resultado por caso de prueba y actualiza la documentación:
+
+- **Matriz de trazabilidad:** resultado por criterio, defectos asociados, métricas de cobertura y detalle por caso con el código HTTP observado.
+- **Reportes de defectos:** si un caso falla y no tiene un BUG asociado, agrega un `BUG-XX` nuevo con severidad, endpoint, resultado esperado y obtenido.
+- **Jira (opcional):** crea en el proyecto `PQA` las historias y los bugs que aún no existen, y vincula cada bug con su historia.
+
+Requisitos: las dependencias de `03-automatizacion/requirements.txt` y, para Postman, Newman (`npm install -g newman`). Para Jira, las variables de entorno `JIRA_EMAIL` y `JIRA_API_TOKEN`.
+
+```bash
+python scripts/sincronizar_qa.py --solo-mostrar          # ejecuta y muestra los cambios, sin escribir nada
+python scripts/sincronizar_qa.py                         # actualiza los archivos .md
+python scripts/sincronizar_qa.py --jira --solo-mostrar   # muestra qué crearía o vincularía en Jira
+python scripts/sincronizar_qa.py --jira --commit --push  # todo el flujo, con commit y push a main
+```
+
+Cada prueba de pytest declara los casos que cubre con `@pytest.mark.casos("CP-XX")`. La relación entre bugs y casos sale del campo **Caso** de cada defecto en `reportes_defectos.md`.
+
 ## Herramientas
 
 Jira (Scrum) · Swagger · Postman · Python · pytest · Git · GitHub · VS Code

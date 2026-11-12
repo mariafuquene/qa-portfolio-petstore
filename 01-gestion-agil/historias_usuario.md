@@ -45,17 +45,17 @@
 
 ### Criterios de aceptación
 
-**CA-09: Actualización exitosa**
+**CA-04.1: Actualización exitosa**
 Dado que existe una mascota registrada,
 cuando envío sus datos con el nombre o el estado modificado,
 entonces el sistema responde 200 y devuelve la mascota con los datos nuevos.
 
-**CA-10: Los cambios quedan guardados**
+**CA-04.2: Los cambios quedan guardados**
 Dado que actualicé una mascota,
 cuando la consulto por su ID,
 entonces el sistema muestra los datos actualizados, no los anteriores.
 
-**CA-11: Datos inválidos**
+**CA-04.3: Datos inválidos**
 Dado que envío un ID con letras o un cuerpo mal formado,
 cuando intento actualizar,
 entonces el sistema responde con un código de error (400 o 405) y no modifica nada.
